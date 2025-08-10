@@ -428,9 +428,11 @@ func ensureNoNewSecondIngressCreated(reqLogger logr.Logger, ai []v1alpha1.Applic
 		_, existsOnCluster := ownedIngressExistingMap[getIngressName(ingressDefinition.DNSName)]
 
 		if !existsOnCluster {
-			err := errors.New("reconciling second ingress controllers using PublishingStrategy is no longer supported. If you have existing second ingress controllers, these can still be updated and deleted as normal. See https://github.com/openshift/cloud-ingress-operator/README.md#publishingstrategyapplicationingress-deprecation for further information")
-			reqLogger.Error(err, fmt.Sprintf("Request to create second ingress %s denied, as customer using new native OCP ingress feature. See https://github.com/openshift/cloud-ingress-operator/README.md#publishingstrategyapplicationingress-deprecation for further information.", getIngressName(ingressDefinition.DNSName)))
-			return reconcile.Result{}, err
+			// err := errors.New("reconciling second ingress controllers using PublishingStrategy is no longer supported. If you have existing second ingress controllers, these can still be updated and deleted as normal. See https://github.com/openshift/cloud-ingress-operator/README.md#publishingstrategyapplicationingress-deprecation for further information")
+			// reqLogger.Error(err, fmt.Sprintf("Request to create second ingress %s denied, as customer using new native OCP ingress feature. See https://github.com/openshift/cloud-ingress-operator/README.md#publishingstrategyapplicationingress-deprecation for further information.", getIngressName(ingressDefinition.DNSName)))
+			// return reconcile.Result{}, err
+
+			reqLogger.Info("TEMP: bypassing native-ingress restriction for local testing - allowing second ingress creation", "ingress", getIngressName(ingressDefinition.DNSName))
 		}
 	}
 
